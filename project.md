@@ -28,7 +28,7 @@ Initially, the dataset contained n = 13 gasoline vehicles and n = 41 electric ve
 
 We next developed a visualization to examine the distribution of PM2.5 TW values within the EMFAC dataset. From initial observations, the distribution is highly right-skewed, with the majority of PM2.5 TW values concentrated at the lower end of the metric range. This concentration indicates that most vehicles exhibit relatively low PM2.5 TW emissions, with only a small number producing substantially higher values. This distribution is illustrated in Figure 1.
 
-![](assets/IMG/pre_processing.png)
+![](assets/IMG/pre_processing_new.png)
 
 *Figure 1: Pre-Processed PM2.5 TW Data of EMFAC*
 
@@ -36,7 +36,7 @@ To improve the normality of the response variable, a logarithmic transformation 
 
 Within the dataset, there are many variables to determine if there is any impact on the predictions of PM2.5 TW. 
 
-![](assets/IMG/post_processing.png)
+![](assets/IMG/post_processing_new.png)
 
 *Figure 2: Post-Processed PM2.5 TW Data of EMFAC through Logarithmic Transformation*
 
