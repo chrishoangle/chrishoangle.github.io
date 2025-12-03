@@ -1,4 +1,4 @@
-### Christopher Le <img align="right" width="350" height="350" src="/assets/IMG/tire.png">
+### Christopher Le <img align="right" width="220" height="220" src="/assets/IMG/tire.png">
 
 here's a link to my [report](/project.md)!
 
