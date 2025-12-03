@@ -1,6 +1,6 @@
 title: Christopher Le
 description: A template for your AOS C111/204 project site.
-logo: /assets/IMG/template_logo.png
+logo: /assets/IMG/logo.png
 show_downloads: true
 remote_theme: pages-themes/minimal@v0.2.0
 plugins:
