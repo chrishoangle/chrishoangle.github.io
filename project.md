@@ -50,6 +50,12 @@ However, it is important to note that the EMFAC dataset may contain inherent mul
 
 For this project, the main purpose of the investigation is to test some modeling algorithms that would best fit the dataset. Hence, I will be testing linear regression, ridge regression, neural network, random forest, decision tree regression, and simple vector regression (SVR). These methods are all commonly used in machine learning that help with quantitative predictions of the response variables, given extensive information about the explanatory variables. Each of these tactics has its own strengths and weaknesses, so I will test the accuracy of each algorithm. 
 
+The data was first split between training and testing data using a 70-30 ratio. 
+
+![](assets/IMG/train_test.png)
+
+_Figure 4. Illustration of stacking. Source: Analytics Vidhya (2020)._
+
 To evaluate model performance, we employed Regression Error Characteristic (REC) curves, which provide a quantitative assessment of the fraction of predictions that fall within a specified error tolerance for the log-transformed PM2.5 TW. The REC curve offers a comprehensive view of prediction accuracy across varying error thresholds.
 
 In addition to REC analysis, standard regression metrics including the coefficient of determination (R²) and root mean squared error (RMSE) were computed to quantify predictive accuracy. To further validate model behavior, predicted values were plotted against true target values to assess agreement and verify consistency with the REC trends.
@@ -93,27 +99,27 @@ When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
 
 ![](assets/IMG/rec_combo.png)
 
-_Figure 4. REC Curve for Linear, Ridge, SVR, and Neural Network_
+_Figure 5. REC Curve for Linear, Ridge, SVR, and Neural Network_
 
 ![](assets/IMG/dt_unconstrained.png)
 
-_Figure 5. Decision Tree without Constraints_
+_Figure 6. Decision Tree without Constraints_
 
 ![](assets/IMG/dt_constrained.png)
 
-_Figure 6. Decision Tree with a maximum depth of 3_
+_Figure 7. Decision Tree with a maximum depth of 3_
 
 ![](assets/IMG/dt_actual_true.png)
 
-_Figure 7. Decision Tree Actual vs. True Y-Values_
+_Figure 8. Decision Tree Actual vs. True Y-Values_
 
 ![](assets/IMG/rf_actual_true.png)
 
-_Figure 8. Random Forest Actual vs. True Y-Values_
+_Figure 9. Random Forest Actual vs. True Y-Values_
 
 ![](assets/IMG/rf_feature_importance.png)
 
-_Figure 9. Feature Importances for Random Forest_
+_Figure 10. Feature Importances for Random Forest_
 
 | Index  | Model | RMSE Mean | RMSE Std | R2 Mean | R2 STD |
 | ------ | ------------- | ------------- | ------------- | ------------- | ------------- |
@@ -125,7 +131,7 @@ _Figure 9. Feature Importances for Random Forest_
 |   3    | 	Ridge regression (alpha=1.0)  | 3.963  | 3.010  | -9.429  | 11.532  |
 |   0    | Linear Regression  | 339487.179  | 518154.992  | -186056865437.766  | 361964590415.061  |
 
-_Figure 10. Overall Accuracy of Models Trained and Tested_
+_Figure 11. Overall Accuracy of Models Trained and Tested_
 
 ## Discussion
 
