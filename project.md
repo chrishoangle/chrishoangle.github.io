@@ -18,7 +18,11 @@ To explore this issue with acknowledgement of the current research field, we tur
 
 ## 2. Data
 
+### 2.1. General Overview
+
 The EMFAC (Emission Factors) model is an on-road mobile emissions model developed by the California Air Resources Board (CARB). EMFAC is used to support public policy and regulatory decision-making and is also publicly available for research and planning purposes. In this study, we investigate differences between gasoline and electric vehicles to understand how PM2.5 tire-wear (TW) emissions can be predicted across these categories.
+
+### 2.1. Pre/Post Processing
 
 Initially, the dataset contained n = 13 gasoline vehicles and n = 41 electric vehicles, indicating a substantial class imbalance. To address this sampling gap, natural gas vehicles (n = 29) were reclassified under the gasoline vehicle category. This pre-processing step was implemented to achieve a more approximately balanced sample between the gasoline and electric vehicle groups, improving the statistical reliability of subsequent modeling. Now, there is a total of n = 83 vehicles that we are investigating. 
 
@@ -40,11 +44,26 @@ With the data now normalized through the logarithmic transformation, PM2.5 TW ca
 
 By incorporating machine learning to predict log-transformed PM2.5 TW, we aim to evaluate whether electric vehicles exhibit a higher PM2.5 TW emission rate per VMT compared to gasoline vehicles, a hypothesis motivated by differences in vehicle mass and torque. Figure 3 presents a bar chart comparison between electric and gasoline vehicles, highlighting a key methodological change between the EMFAC 2021 and EMFAC 2025. The EMFAC 2025 model incorporates vehicle weight dependence, whereas the EMFAC 2021 model treated tire-wear emissions as weight-independent. Hence, the log-transformed PM2.5 TW emission rate per VMT between gasoline and electric vehicles was the same.
 
-However, it is important to note that the EMFAC dataset may contain inherent multicollinearity due to correlated traffic and emissions variables. For example, PM2.5 Total is related to PM2.5 TW emissions and may inflate feature importance if included directly as a predictor. To accommodate this multicollinearity, various machine learning models were implemented to investigate how performance would be affected.
-
 ![](assets/IMG/pm_vmt.png)
 
 *Figure 3: PM2.5 per VMT Bar Chart Comparison Between Electric and Gasoline Vehicles EMFAC 2025.*
+
+However, it is important to note that the EMFAC dataset may contain inherent multicollinearity due to correlated traffic and emissions variables. For example, PM2.5 Total is related to PM2.5 TW emissions and may inflate feature importance if included directly as a predictor. To accommodate this multicollinearity, various machine learning models were implemented to investigate how performance would be affected.
+
+### 2.3. EMFAC Features
+
+#### 2.3.1. Activity Variables
+- Vehicle Miles Traveled (VMT): Total distance driven per day by vehicles.
+- Combustion VMT (cVMT): Miles traveled using internal combustion engines (gasoline, diesel, natural gas).
+- Electric VMT (eVMT): Miles traveled using electric propulsion (battery electric and fuel cell vehicles).
+- Trips: Defined as engine-on events.
+- Vehicle Population: Number of active vehicles by class and fuel type.
+- Energy / Fuel Consumption: Electricity (kWh/mile) or fuel usage.
+
+#### 2.3.2. Emission Processes
+- Tire Wear Particulate Matter (PMTW): Particulate Matter emitted due to mechanical abrasion between tires and road surfaces.
+- Brake Wear Particulate Matter (PMBW): Particulate Matter Emitted from brake pad and rotor wear during deceleration.
+- Running Exhaust Emissions (RUNEX): Tailpipe emissions produced while the vehicle is in motion.
 
 ## 3. Modeling
 
