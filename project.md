@@ -48,7 +48,11 @@ However, it is important to note that the EMFAC dataset may contain inherent mul
 
 ## Modeling
 
-For this project, the main purpose of the investigation is to test some modeling algorithms that would best fit the dataset. Hence, I will be testing linear regression, ridge regression, neural network, random forest, decision tree regression, and simple vector regression (SVR). These methods are all commonly used in machine learning that help with quantitative predictions of the response variables, given extensive information about the explanatory variables. Each of these tactics has its own strengths and weaknesses, so I will test the accuracy of each algorithm.
+For this project, the main purpose of the investigation is to test some modeling algorithms that would best fit the dataset. Hence, I will be testing linear regression, ridge regression, neural network, random forest, decision tree regression, and simple vector regression (SVR). These methods are all commonly used in machine learning that help with quantitative predictions of the response variables, given extensive information about the explanatory variables. Each of these tactics has its own strengths and weaknesses, so I will test the accuracy of each algorithm. 
+
+To evaluate model performance, we employed Regression Error Characteristic (REC) curves, which provide a quantitative assessment of the fraction of predictions that fall within a specified error tolerance for the log-transformed PM2.5 TW. The REC curve offers a comprehensive view of prediction accuracy across varying error thresholds.
+
+In addition to REC analysis, standard regression metrics including the coefficient of determination (R²) and root mean squared error (RMSE) were computed to quantify predictive accuracy. To further validate model behavior, predicted values were plotted against true target values to assess agreement and verify consistency with the REC trends.
 
 ### Linear Regression
 
@@ -56,7 +60,7 @@ Linear regression was selected as an initial baseline model due to its widesprea
 
 ### Ridge Regression
 
-
+To improve upon the linear regression baseline, ridge regression was incorporated to address multicollinearity among the predictor variables inherent in the EMFAC dataset. By introducing an L2 regularization penalty, ridge regression shrinks coefficient magnitudes and reduces variance in the parameter estimates, thereby mitigating overfitting while stabilizing model predictions for PM2.5 TW emissions.
 
 ### Neural Network
 
@@ -110,6 +114,18 @@ _Figure 8. Random Forest Actual vs. True Y-Values_
 ![](assets/IMG/rf_feature_importance.png)
 
 _Figure 9. Feature Importances for Random Forest_
+
+| Index  | Model | RMSE Mean | RMSE Std | R2 Mean | R2 STD |
+| ------ | ------------- | ------------- | ------------- | ------------- | ------------- |
+|   1    | Decision tree (max_depth = 3)  | 0.272  | 0.055  | 0.966  | 0.011  |
+|   5    | Random forest (n_estimators=200, max_depth=6)  | 0.279  | 0.108  | 0.959  | 0.033  |
+|   2    | 	Decision tree (without constraints)  | 0.318  | 0.114  | 0.947  | 0.045  |
+|   6    | SVR (RBF, C=1.0)  | 1.090  | 0.129  | 0.458  | 0.157  |
+|   4    | 	Neural Network (1x300)  | 1.440  | 0.594  | -0.115  | 1.087  |
+|   3    | 	Ridge regression (alpha=1.0)  | 3.963  | 3.010  | -9.429  | 11.532  |
+|   0    | Linear Regression  | 339487.179  | 518154.992  | -186056865437.766  | 361964590415.061  |
+
+_Figure 10. Overall Accuracy of Models Trained and Tested_
 
 ## Discussion
 
