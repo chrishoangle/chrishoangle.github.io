@@ -75,7 +75,9 @@ The data was first split between training and testing data using a 70-30 ratio. 
 
 _Figure 4. Illustration of stacking. Source: Analytics Vidhya (2020) [3]_
 
-To evaluate model performance, we implemented Regression Error Characteristic (REC) curves, which provide a quantitative assessment of the fraction of predictions that fall within a specified error tolerance of 0.001 for the log-transformed PM2.5 TW. The REC curve offers a comprehensive view of prediction accuracy across varying error thresholds.
+Following that, the StandardScaler() was applied to the predictors (X) to normalize the data before model fitting, whic helped ensure consistency and would potentially improve performance. The target variable (Y) or log-transformed of PM2.5 TW did not se StandardScaler() as the values were already tiny. 
+
+To evaluate model performance, we implemented Regression Error Characteristic (REC) curves, which provide a quantitative assessment of the fraction of predictions that fall within a specified maximum error tolerance of 0.001 for the log-transformed PM2.5 TW. The REC curve offers a comprehensive view of prediction accuracy across varying error thresholds.
 
 In addition to REC analysis, standard regression metrics including the coefficient of determination (R²) and root mean squared error (RMSE) were computed to quantify predictive accuracy. To further validate model behavior, predicted values were plotted against true target values to assess agreement and verify consistency with the REC trends. It is important to consider that when evaluating the performance of the models, RMSE tends to be sensitive to outliers, which will make other models' performance vary depending on how they handle outliers.
 
@@ -91,23 +93,25 @@ To improve upon the linear regression baseline, ridge regression was incorporate
 
 ### 3.3 Neural Network
 
-Neural networks are flexible nonlinear machine learning models inspired by the structure of biological neural systems, consisting of interconnected layers of artificial neurons that transform input features through weighted connections and nonlinear activation functions. Given the nonlinear nature of log-transformed PM2.5 TW and the strong multicollinearity inherent in the EMFAC dataset, neural networks were appropriate for capturing intricate interaction effects among driving behavior and vehicle characteristics. Figure 5 shows the REC curve for the neural network model, suggesting that about 80% of points are well-predicted. Figure 11 contains the k-fold cross-validation of the neural network with respect to the other models, ranking on the lower end with high RMSE and low R² scores. 
+Neural networks are flexible nonlinear machine learning models inspired by the structure of biological neural systems, consisting of interconnected layers of artificial neurons that transform input features through weighted connections and nonlinear activation functions. Given the nonlinear nature of log-transformed PM2.5 TW and the strong multicollinearity inherent in the EMFAC dataset, neural networks were appropriate for capturing intricate interaction effects among driving behavior and vehicle characteristics. For this particular model, the neural network had 300 hidden layer sizes and 2000 max iterations with a tolerance of 0.1.
+
+Figure 5 shows the REC curve for the neural network model, suggesting that about 80% of points are well-predicted. Figure 11 contains the k-fold cross-validation of the neural network with respect to the other models, ranking on the lower end with high RMSE and low R² scores. 
 
 ### 3.4 Random Forest 
 
-Random Forest is an ensemble learning method that constructs a large collection of decision trees using bootstrap. The final prediction is obtained by averaging the predictions across all trees. 
+Random Forest is an ensemble learning method that constructs a large collection of decision trees using bootstrap. The final prediction is obtained by averaging the predictions across all trees. An additional advantage of random forest is its ability to quantify feature importance, which provides insight into which driving and vehicle-related variables contribute most strongly to the log-transformed PM2.5 TW predictions. For this particular model, the random forest had a max depth of 6 and n estimators of 200. 
 
-An additional advantage of random forest is its ability to quantify feature importance, which provides insight into which driving and vehicle-related variables contribute most strongly to the log-transformed PM2.5 TW predictions. Figure 9 shows the Actual vs. Predicted Y-value curve for the random forest model, indicating that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the random forest model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
+Figure 9 shows the Actual vs. Predicted Y-value curve for the random forest model, indicating that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the random forest model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
 
 ### 3.5 Decision Tree
 
-Decision Trees are appropriate for capturing nonlinear relationships and complex feature interactions within a dataset. Because the relationship between the input variables and the log-transformed PM2.5 TW emissions is expected to be highly nonlinear, decision trees provide a flexible modeling framework that does not impose linearity assumptions. 
+Decision Trees are appropriate for capturing nonlinear relationships and complex feature interactions within a dataset. Because the relationship between the input variables and the log-transformed PM2.5 TW emissions is expected to be highly nonlinear, decision trees provide a flexible modeling framework that does not impose linearity assumptions. For the particular decision tree, we had two models where the max depth was constrained at 3, compared to the max depth being unconstrained. 
 
 From a physical science perspective, the hierarchical structure of the decision tree model offers interpretability by allowing researchers to trace how specific driving and vehicle-related variables influence predictions through conditional splits. In this study, regression trees were used to model the predominantly quantitative feature set, while still allowing categorical variables such as fuel type to be incorporated. Figure 8 shows the Actual vs. Predicted Y-value curve for the decision tree model, suggesting that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the decision tree model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
 
 ### 3.6 SVR
 
-SVR was included as a nonlinear kernel-based method for predicting the log-transformed PM2.5 TW output. Because SVR can capture nonlinear relationships through kernel functions, it was evaluated as an alternative to tree-based and neural network models for modeling the EMFAC dataset. Figure 5 shows the REC curve for the SVR model, highlighting that about 80% of points are well-predicted. Figure 11 shows the k-fold cross-validation of the SVR model with respect to the other models, ranking on the moderate end with adequate RMSE and inconclusive R² scores. 
+SVR was included as a nonlinear kernel-based method for predicting the log-transformed PM2.5 TW output. Because SVR can capture nonlinear relationships through kernel functions, it was evaluated as an alternative to tree-based and neural network models for modeling the EMFAC dataset. For this particular model, the kernel was set as a radial basis function (RBF) to model a nonlinear relationship with the regularization set at C = 1.0. Figure 5 shows the REC curve for the SVR model, highlighting that about 80% of points are well-predicted. Figure 11 shows the k-fold cross-validation of the SVR model with respect to the other models, ranking on the moderate end with adequate RMSE and inconclusive R² scores. 
 
 ## 4. Results
 
