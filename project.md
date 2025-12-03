@@ -44,6 +44,8 @@ By incorporating machine learning to predict PM2.5 TW, we aim to evaluate whethe
 
 ## Modelling
 
+For this project, the main purpose of the investigation is to test some modeling algorithms that would best fit the dataset. Hence, I will be testing linear regression, ridge regression, neural network, random forest, decision tree regression, and simple vector regression (SVR). These methods are all commonly used in machine learning that help with quantitative predictions of the response variables, given extensive information about the explanatory variables. Each of these tactics has its own strengths and weaknesses so I will test the accuracy of each algorithm.
+
 ### Linear Regression
 
 When selectng the machine learning model that I can work with, I fist thought that linear regression would be a 
@@ -79,6 +81,19 @@ clf.predict([[0, 0, 0, 0]])
 This is how the method was developed.
 
 ## Results
+
+![](assets/IMG/dt_unconstrained.png)
+
+![](assets/IMG/dt_constrained.png)
+
+![](assets/IMG/dt_actual_true.png)
+
+![](assets/IMG/rf_actual_true.png)
+
+![](assets/IMG/rf_feature_importance.png)
+
+![](assets/IMG/rec_combo.png)
+
 
 Figure X shows... [description of Figure X].
 
