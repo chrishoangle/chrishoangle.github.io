@@ -14,7 +14,7 @@ While EVs eliminate tailpipe emissions, they still produce pollution from non-ex
 
 With the current context of research in non-exhaust emissions of tire wear, there are many complications that arise when exploring this field. Throughout the 850 peer-reviewed scientific publications that were analyzed about tire wear emissions, the current knowledge base on tire wear emissions is scattered [1]. There are varying measurement methodologies that one approaches, but there are also many explanatory variables that affect the amount of tire wear emissions that cannot be fully controlled in a highly advanced laboratory setting.
 
-To explore this issue with acknowledgement of the current research field, we turned to CARB’s EMFAC emissions model, focusing specifically on tire-wear PM2.5 in Los Angeles County. We performed machine learning to understand how to predict PM2.5 TW given other explanatory variables. Through the AOS C111 class, I plan to achieve the objectives of this research in threefold: (1) develop machine learning models for predicting PM2.5 emissions from tire wear using vehicle and driving behavior patterns, (2) compare multiple algorithm classes using k-fold cross-validation and REC curves, and (3) identify the most accurate and stable modeling framework for non-exhaust PM2.5 TW prediction. By utilizing ensemble learning methods, this study seeks to advance predictive modeling in non-exhaust emissions and contribute to the broader adoption of data-driven approaches in the clean energy transportation sector. This machine learning project will support the club's research throughout the school year as we begin conducting case studies with in-field observations on tire-wear emissions.
+To explore this issue with acknowledgement of the current research field, we turned to CARB’s EMFAC emissions model, focusing specifically on tire-wear PM2.5 in Los Angeles County. We performed machine learning to understand how to predict log-transformed PM2.5 TW given other explanatory variables. Through the AOS C111 class, I plan to achieve the objectives of this research in threefold: (1) develop machine learning models for predicting PM2.5 emissions from tire wear using vehicle and driving behavior patterns, (2) compare multiple algorithm classes using k-fold cross-validation and REC curves, and (3) identify the most accurate and stable modeling framework for non-exhaust log-transformed PM2.5 TW prediction. By utilizing ensemble learning methods, this study seeks to advance predictive modeling in non-exhaust emissions and contribute to the broader adoption of data-driven approaches in the clean energy transportation sector. This machine learning project will support the club's research throughout the school year as we begin conducting case studies with in-field observations on tire-wear emissions.
 
 ## 2. Data
 
@@ -26,7 +26,7 @@ We next developed a visualization to examine the distribution of PM2.5 TW values
 
 ![](assets/IMG/pre_processing.png)
 
-*Figure 1: Pre-Processed PM2.5 TW Data of EMFAC [1].*
+*Figure 1: Pre-Processed PM2.5 TW Data of EMFAC.*
 
 To improve the normality of the response variable, a logarithmic transformation was applied to the PM2.5 tire-wear (TW) values. This transformation reduces the influence of extreme values and mitigates the strong right-skew observed in the original distribution, resulting in data that are better appropriate for regression-based and machine learning models. The resulting transformed distribution is shown in Figure 2.
 
@@ -34,13 +34,13 @@ Within the dataset, there are many variables to determine if there is any impact
 
 ![](assets/IMG/post_processing.png)
 
-*Figure 2: Post-Processed PM2.5 TW Data of EMFAC through Logarithmic Transformation  [2].*
+*Figure 2: Post-Processed PM2.5 TW Data of EMFAC through Logarithmic Transformation.*
 
 With the data now normalized through the logarithmic transformation, PM2.5 TW can be analyzed more effectively within the modeling framework. Before proceeding further, it is important to examine how the behavior of PM2.5 TW is represented within the emissions modeling data. In this field of research, PM2.5 TW is often evaluated per vehicle miles traveled (VMT) to quantify the rate at which tire-wear particles are emitted over time and distance.
 
-By incorporating machine learning to predict PM2.5 TW, we aim to evaluate whether electric vehicles exhibit a higher PM2.5 TW emission rate per VMT compared to gasoline vehicles, a hypothesis motivated by differences in vehicle mass and torque. Figure 3 presents a bar chart comparison between electric and gasoline vehicles, highlighting a key methodological change between the EMFAC 2021 and EMFAC 2025. The EMFAC 2025 model incorporates vehicle weight dependence, whereas the EMFAC 2021 model treated tire-wear emissions as weight-independent; hence, the PM2.5 TW emission rate per VMT between gasoline and electric vehicles was the same.
+By incorporating machine learning to predict log-transformed PM2.5 TW, we aim to evaluate whether electric vehicles exhibit a higher PM2.5 TW emission rate per VMT compared to gasoline vehicles, a hypothesis motivated by differences in vehicle mass and torque. Figure 3 presents a bar chart comparison between electric and gasoline vehicles, highlighting a key methodological change between the EMFAC 2021 and EMFAC 2025. The EMFAC 2025 model incorporates vehicle weight dependence, whereas the EMFAC 2021 model treated tire-wear emissions as weight-independent. Hence, the log-transformed PM2.5 TW emission rate per VMT between gasoline and electric vehicles was the same.
 
-However, it is important to note that the EMFAC dataset may contain inherent multicollinearity due to correlated traffic and emissions variables. For example, PM2.5 Total is  related to PM2.5 TW emissions and may artificially inflate feature importance if included directly as a predictor. To accommodate this multicollinearity, various machine learning models were implemented to investigate how performance would be affected.
+However, it is important to note that the EMFAC dataset may contain inherent multicollinearity due to correlated traffic and emissions variables. For example, PM2.5 Total is related to PM2.5 TW emissions and may inflate feature importance if included directly as a predictor. To accommodate this multicollinearity, various machine learning models were implemented to investigate how performance would be affected.
 
 ![](assets/IMG/pm_vmt.png)
 
@@ -64,27 +64,27 @@ After developing all the models for this project, a k-fold cross-validation, spe
 
 ### 3.1 Linear Regression
 
-Linear regression was selected as an initial baseline model due to its widespread use in quantitative prediction tasks and its interpretability. Based on prior literature, it was reasonable to first test the assumption that PM2.5 TW emissions exhibit an approximately linear relationship with key explanatory variables. In this study, linear regression models the logarithmically transformed PM2.5 TW as a linear combination of trip characteristics, total vehicle miles traveled (VMT), and fuel consumption. This formulation assumes that changes in these driving and vehicle-related variables produce proportional changes in log-transformed PM2.5 TW. Figure 5 shows the REC curve for the linear regression model, showing that about 60% of points are well-predicted. Figure 11 shows the k-fold cross-validation of linear regression with respect to other models, ranking as the lowest with high RMSE and low R² scores. 
+Linear regression was selected as an initial baseline model due to its widespread use in quantitative prediction tasks and its interpretability. Based on prior literature, it was reasonable to first test the assumption that log-transformed PM2.5 TW emissions exhibit an approximately linear relationship with key explanatory variables. In this study, linear regression models the log-transformed PM2.5 TW as a linear combination of trip characteristics, total vehicle miles traveled (VMT), and fuel consumption. This formulation assumes that changes in these driving and vehicle-related variables produce proportional changes in log-transformed PM2.5 TW. Figure 5 shows the REC curve for the linear regression model, showing that about 60% of points are well-predicted. Figure 11 shows the k-fold cross-validation of linear regression with respect to other models, ranking as the lowest with high RMSE and low R² scores. 
 
 ### 3.2 Ridge Regression
 
-To improve upon the linear regression baseline, ridge regression was incorporated to address multicollinearity among the predictor variables inherent in the EMFAC dataset. By introducing an L2 regularization penalty, ridge regression shrinks coefficient magnitudes and reduces variance in the parameter estimates. Hence, this reduces overfitting while stabilizing model predictions for PM2.5 TW emissions. Figure 5 illustrates the REC curve for the ridge regression model, showing that about 80% of points are well-predicted. Figure 11 exhibits the k-fold cross-validation of ridge regression with respect to the other models, ranking on the lower end with high RMSE and low R² scores. 
+To improve upon the linear regression baseline, ridge regression was incorporated to address multicollinearity among the predictor variables inherent in the EMFAC dataset. By introducing an L2 regularization penalty, ridge regression shrinks coefficient magnitudes and reduces variance in the parameter estimates. Hence, this reduces overfitting while stabilizing model predictions for log-transformed PM2.5 TW emissions. Figure 5 illustrates the REC curve for the ridge regression model, showing that about 80% of points are well-predicted. Figure 11 exhibits the k-fold cross-validation of ridge regression with respect to the other models, ranking on the lower end with high RMSE and low R² scores. 
 
 ### 3.3 Neural Network
 
-Neural networks are flexible nonlinear machine learning models inspired by the structure of biological neural systems, consisting of interconnected layers of artificial neurons that transform input features through weighted connections and nonlinear activation functions. Given the nonlinear nature of PM2.5 TW and the strong multicollinearity inherent in the EMFAC dataset, neural networks were appropriate for capturing intricate interaction effects among driving behavior and vehicle characteristics. Figure 5 shows the REC curve for the neural network model, suggesting that about 80% of points are well-predicted. Figure 11 contains the k-fold cross-validation of the neural network with respect to the other models, ranking on the lower end with high RMSE and low R² scores. 
+Neural networks are flexible nonlinear machine learning models inspired by the structure of biological neural systems, consisting of interconnected layers of artificial neurons that transform input features through weighted connections and nonlinear activation functions. Given the nonlinear nature of log-transformed PM2.5 TW and the strong multicollinearity inherent in the EMFAC dataset, neural networks were appropriate for capturing intricate interaction effects among driving behavior and vehicle characteristics. Figure 5 shows the REC curve for the neural network model, suggesting that about 80% of points are well-predicted. Figure 11 contains the k-fold cross-validation of the neural network with respect to the other models, ranking on the lower end with high RMSE and low R² scores. 
 
 ### 3.4 Random Forest 
 
 Random Forest is an ensemble learning method that constructs a large collection of decision trees using bootstrap. The final prediction is obtained by averaging the predictions across all trees. 
 
-An additional advantage of random forest is its ability to quantify feature importance, which provides insight into which driving and vehicle-related variables contribute most strongly to PM2.5 TW predictions. Figure 9 shows the Actual vs. Predicted Y-value curve for the random forest model, indicating that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the random forest model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
+An additional advantage of random forest is its ability to quantify feature importance, which provides insight into which driving and vehicle-related variables contribute most strongly to the log-transformed PM2.5 TW predictions. Figure 9 shows the Actual vs. Predicted Y-value curve for the random forest model, indicating that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the random forest model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
 
 ### 3.5 Decision Tree
 
-Decision Trees are appropriate for capturing nonlinear relationships and complex feature interactions within a dataset. Because the relationship between the input variables and the logarithmically transformed PM2.5 TW emissions is expected to be highly nonlinear, decision trees provide a flexible modeling framework that does not impose linearity assumptions. 
+Decision Trees are appropriate for capturing nonlinear relationships and complex feature interactions within a dataset. Because the relationship between the input variables and the log-transformed PM2.5 TW emissions is expected to be highly nonlinear, decision trees provide a flexible modeling framework that does not impose linearity assumptions. 
 
-From a physical science perspective, the hierarchical structure of a model  offers interpretability by allowing researchers to trace how specific driving and vehicle-related variables influence predictions through  conditional splits. In this study, regression trees were used to model the predominantly quantitative feature set, while still allowing categorical variables such as fuel type to be incorporated. Figure 8 shows the Actual vs. Predicted Y-value curve for the decision tree model, suggesting that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the decision tree model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
+From a physical science perspective, the hierarchical structure of the decision tree model offers interpretability by allowing researchers to trace how specific driving and vehicle-related variables influence predictions through conditional splits. In this study, regression trees were used to model the predominantly quantitative feature set, while still allowing categorical variables such as fuel type to be incorporated. Figure 8 shows the Actual vs. Predicted Y-value curve for the decision tree model, suggesting that most of the predictions follow the perfect prediction behavior. Figure 11 shows the k-fold cross-validation of the decision tree model with respect to the other models, ranking on the higher end with low RMSE and high R² scores. 
 
 ### 3.6 SVR
 
@@ -105,15 +105,15 @@ _Figure 5. REC Curve for Linear, Ridge, SVR, and Neural Network_
 
 ![](assets/IMG/dt_unconstrained.png)
 
-_Figure 6.  without Constraints_
+_Figure 6. Decision Tree without Constraints_
 
 ![](assets/IMG/dt_constrained.png)
 
-_Figure 7.  with a maximum depth of 3_
+_Figure 7. Decision Tree with a maximum depth of 3_
 
 ![](assets/IMG/dt_actual_true.png)
 
-_Figure 8.  Actual vs. True Y-Values_
+_Figure 8. Decision Tree Actual vs. True Y-Values_
 
 ![](assets/IMG/rf_actual_true.png)
 
@@ -143,7 +143,7 @@ Based on the results in section 4, we can summarize that after conducting a k-fo
 
 With the decision tree in particular, initially the model was allowed to grow and split without any limits due to unspecified restraints of max_depth. This led to an RMSE of 0.318 and an R² of 0.947. To see if I can improve the decision tree model, I set max_depth to 3 and saw a slight improvement in both RMSE and R². With the max_depth established, this set a constant for the number of levels within the tree during the training process. Figures 6 and 7 showcase the decision trees without constraints and with a max_depth constraint of 3. To validate our findings, we obtained the Actual vs. Predicted y-values, where Figure 8 shows that the Decision Tree predictions follow the expected behavior that is expected at the perfect prediction line (y = x). 
 
-Now, with decision trees being more prone to overfitting, the random forest model was executed to determine how well this model can handle the complex dataset of EMFAC efficiently, with less likelihood for overfitting. Random forest exhibited a positive indication as a good model based on the RMSE and R² shown in Figure 10, as well as the expected behavior of the random forest predictions from the y = x line shown in Figure 9. In comparison with the decision tree models' performances, the random forest model's performance was similar. With a note on the multicollinearity, Figure 10 highlights that PM10_PMTW had a big feature importance on predicting PM2.5 TW, which makes sense as PM10_PMTW is the tire-wear emission measurement but on a 10μm metric rather than a 2.5μm. Based on past literature reviews, the PM10_PMTW was expected to have high feature importance, as well as Total_VMT, which is the amount of miles traveled for each test point. 
+Now, with decision trees being more prone to overfitting, the random forest model was executed to determine how well this model can handle the complex dataset of EMFAC efficiently, with less likelihood for overfitting. Random forest exhibited a positive indication as a good model based on the RMSE and R² shown in Figure 10, as well as the expected behavior of the random forest predictions from the y = x line shown in Figure 9. In comparison with the decision tree models' performances, the random forest model's performance was similar. With a note on the multicollinearity, Figure 10 highlights that PM10_PMTW had a big feature importance on predicting log-transformed PM2.5 TW, which makes sense as PM10_PMTW is the tire-wear emission measurement but on a 10μm metric rather than a 2.5μm. Based on past literature reviews, the PM10_PMTW was expected to have high feature importance, as well as Total_VMT, which is the amount of miles traveled for each test point. 
 
 The SVR model had RMSE and R² that were not extremely indicative that the model was appropriate or not. This could be due to the poor choice of not hypertuning the hyperparameters enough with the kernel parameters and the regularization parameter. The SVR model could have been trained to consider the complex relationship of the EMFAC model, as the kernel trick can make the model accommodate a non-linear relationship between the input features and the target variable. 
 
@@ -155,7 +155,7 @@ It is important to note that this dataset contains information on emissions of v
 
 ## Conclusion
 
-In summary, the purpose of this project was to explore the relationships between other various features in the CARB EMFAC dataset to see how there can be more valid predictions of logarithmically transformed PM2.5 TW non-exhaust emissions from vehicles by incorporating machine learning techniques. The analysis covered factors, including the rate of tire-wear emissions released, vehicle miles traveled, and particulate matter measurements. From this work, the following conclusions were formed.
+In summary, the purpose of this project was to explore the relationships between other various features in the CARB EMFAC dataset to see how there can be more valid predictions of log-transformed PM2.5 TW non-exhaust emissions from vehicles by incorporating machine learning techniques. The analysis covered factors, including the rate of tire-wear emissions released, vehicle miles traveled, and particulate matter measurements. From this work, the following conclusions were formed.
 
 The decision tree (constrained with max_depth = 3 and unconstrained with no max_depth defined) and random forest models demonstrated strong predictive performance that was closely related to actual and predicted values. Hence, each of the models had a relatively low RMSE and high R². These models were well-suited as they accommodate the non-linear relationship between the features and the target variable well. The best model that was obtained based on the RMSE and R² was the decision tree (max_depth = 3). 
 
