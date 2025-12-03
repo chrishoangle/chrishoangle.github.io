@@ -10,9 +10,9 @@ I applied machine learning techniques to investigate PM2.5 (particulate matter o
 
 Electric vehicles (EVs) are often described as “zero-emission vehicles,” a label that plays a central role in climate policy and public perception. When our club team first began this project through UCLA’s International Urban Sustainability Student Corps (IUSSC) in partnership with the California Air Resources Board (CARB), we shared that same assumption. If EVs eliminate tailpipe pollution, then transitioning to them should automatically reduce particulate matter exposure in cities like Los Angeles. As we dug deeper, we learned that this may not be the case.
 
-While EVs eliminate tailpipe emissions, they still produce pollution from non-exhaust sources, particularly tire and brake wear. These forms of PM2.5 (particulate matter of 2.5μm or less) enter the air regardless of whether a car runs on gasoline or electricity. This becomes especially important when considering that EVs are, on average, about 20 percent heavier than comparable gasoline vehicles due to their batteries. That added weight increases friction and stress on tires, which in turn leads to higher levels of tire-wear particles. As Los Angeles accelerates its transition to electric vehicles, understanding the implications of these overlooked emissions is becoming increasingly urgent.
+While EVs eliminate tailpipe emissions, they still produce pollution from non-exhaust sources, particularly tire and brake wear. These forms of PM2.5 (particulate matter of 2.5μm or less) enter the air regardless of whether a car runs on gasoline or electricity. This becomes especially important when considering that EVs are, on average, about 20 percent heavier than comparable gasoline vehicles due to their batteries [1]. That added weight increases friction and stress on tires, which in turn leads to higher levels of tire-wear particles. As Los Angeles accelerates its transition to electric vehicles, understanding the implications of these overlooked emissions is becoming increasingly urgent.
 
-With the current context of research in non-exhaust emissions of tire wear, there are many complications that arise when exploring this field. Throughout the 850 peer-reviewed scientific publications that were analyzed about tire wear emissions, the current knowledge base on tire wear emissions is scattered [1]. There are varying measurement methodologies that one approaches, but there are also many explanatory variables that affect the amount of tire wear emissions that cannot be fully controlled in a highly advanced laboratory setting.
+With the current context of research in non-exhaust emissions of tire wear, there are many complications that arise when exploring this field. Throughout the 502 peer-reviewed scientific publications that were analyzed about tire wear emissions, the current knowledge base on tire wear emissions is scattered [2]. There are varying measurement methodologies that one approaches, but there are also many explanatory variables that affect the amount of tire wear emissions that cannot be fully controlled in a highly advanced laboratory setting.
 
 To explore this issue with acknowledgement of the current research field, we turned to CARB’s EMFAC emissions model, focusing specifically on tire-wear PM2.5 in Los Angeles County. We performed machine learning to understand how to predict log-transformed PM2.5 TW given other explanatory variables. Through the AOS C111 class, I plan to achieve the objectives of this research in threefold: (1) develop machine learning models for predicting PM2.5 emissions from tire wear using vehicle and driving behavior patterns, (2) compare multiple algorithm classes using k-fold cross-validation and REC curves, and (3) identify the most accurate and stable modeling framework for non-exhaust log-transformed PM2.5 TW prediction. By utilizing ensemble learning methods, this study seeks to advance predictive modeling in non-exhaust emissions and contribute to the broader adoption of data-driven approaches in the clean energy transportation sector. This machine learning project will support the club's research throughout the school year as we begin conducting case studies with in-field observations on tire-wear emissions.
 
@@ -26,7 +26,7 @@ We next developed a visualization to examine the distribution of PM2.5 TW values
 
 ![](assets/IMG/pre_processing.png)
 
-*Figure 1: Pre-Processed PM2.5 TW Data of EMFAC.*
+*Figure 1: Pre-Processed PM2.5 TW Data of EMFAC*
 
 To improve the normality of the response variable, a logarithmic transformation was applied to the PM2.5 tire-wear (TW) values. This transformation reduces the influence of extreme values and mitigates the strong right-skew observed in the original distribution, resulting in data that are better appropriate for regression-based and machine learning models. The resulting transformed distribution is shown in Figure 2.
 
@@ -34,7 +34,7 @@ Within the dataset, there are many variables to determine if there is any impact
 
 ![](assets/IMG/post_processing.png)
 
-*Figure 2: Post-Processed PM2.5 TW Data of EMFAC through Logarithmic Transformation.*
+*Figure 2: Post-Processed PM2.5 TW Data of EMFAC through Logarithmic Transformation*
 
 With the data now normalized through the logarithmic transformation, PM2.5 TW can be analyzed more effectively within the modeling framework. Before proceeding further, it is important to examine how the behavior of PM2.5 TW is represented within the emissions modeling data. In this field of research, PM2.5 TW is often evaluated per vehicle miles traveled (VMT) to quantify the rate at which tire-wear particles are emitted over time and distance.
 
@@ -44,7 +44,7 @@ However, it is important to note that the EMFAC dataset may contain inherent mul
 
 ![](assets/IMG/pm_vmt.png)
 
-*Figure 3: PM2.5 per VMT Bar Chart Comparison Between Electric and Gasoline Vehicles EMFAC 2025 [3].*
+*Figure 3: PM2.5 per VMT Bar Chart Comparison Between Electric and Gasoline Vehicles EMFAC 2025.*
 
 ## 3. Modeling
 
@@ -54,7 +54,7 @@ The data was first split between training and testing data using a 70-30 ratio. 
 
 ![](assets/IMG/train_test.png)
 
-_Figure 4. Illustration of stacking. Source: Analytics Vidhya (2020)._
+_Figure 4. Illustration of stacking. Source: Analytics Vidhya (2020) [3]_
 
 To evaluate model performance, we implemented Regression Error Characteristic (REC) curves, which provide a quantitative assessment of the fraction of predictions that fall within a specified error tolerance of 0.001 for the log-transformed PM2.5 TW. The REC curve offers a comprehensive view of prediction accuracy across varying error thresholds.
 
@@ -89,13 +89,6 @@ From a physical science perspective, the hierarchical structure of the decision 
 ### 3.6 SVR
 
 SVR was included as a nonlinear kernel-based method for predicting the log-transformed PM2.5 TW output. Because SVR can capture nonlinear relationships through kernel functions, it was evaluated as an alternative to tree-based and neural network models for modeling the EMFAC dataset. Figure 5 shows the REC curve for the SVR model, highlighting that about 80% of points are well-predicted. Figure 11 shows the k-fold cross-validation of the SVR model with respect to the other models, ranking on the moderate end with adequate RMSE and inconclusive R² scores. 
-
-
-<p>
-When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
-</p>
-
 
 ## 4. Results
 
@@ -166,7 +159,8 @@ The linear and ridge regression model is not well-suited for this dataset, as th
 To further develop this work in future projects, the SVR model should be explored as it is handled to capture nonlinear relationships through kernel function hypertuning. The SVR model has lots of advantages, as there is complexity control and robustness to outliers, which the EMFAC dataset has. 
 
 ## References
-[1] https://tireindustryproject.org/news/scientists-call-for-deeper-investigation-and-standardization-of-methodologies-for-measuring-and-assessing-tire-wear-emissions-in-first-of-its-kind-state-of-knowledge-papers/?utm_campaign=&utm_content=8e23ffc2-09a1-42b7-807b-1e64c46b25d7&utm_medium=linkedin&utm_term=continental&utm_source
-
+[1] Liu, Y., Chen, H., Gao, J., Li, Y., Dave, K., Chen, J., Federici, M., & Perricone, G. (2021). Comparative analysis of non-exhaust airborne particles from electric and internal combustion engine vehicles. Journal of Hazardous Materials, 420(126626), 126626. https://doi.org/10.1016/j.jhazmat.2021.126626
+[2] Müller, K., Unice, K., Panko, J., & Wagner, S. (2025). Tire emissions during the use phase of tires – current and future trends. Environmental Science: Advances. https://doi.org/10.1039/d4va00407h
+[3] Sundar, S. (2020, December 3). Improve your Predictive Model’s Score using a Stacking Regressor. Analytics Vidhya. https://www.analyticsvidhya.com/blog/2020/12/improve-predictive-model-score-stacking-regressor/
 [back](./)
 
