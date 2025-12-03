@@ -159,8 +159,11 @@ The linear and ridge regression model is not well-suited for this dataset, as th
 To further develop this work in future projects, the SVR model should be explored as it is handled to capture nonlinear relationships through kernel function hypertuning. The SVR model has lots of advantages, as there is complexity control and robustness to outliers, which the EMFAC dataset has. 
 
 ## References
+
 [1] Liu, Y., Chen, H., Gao, J., Li, Y., Dave, K., Chen, J., Federici, M., & Perricone, G. (2021). Comparative analysis of non-exhaust airborne particles from electric and internal combustion engine vehicles. Journal of Hazardous Materials, 420(126626), 126626. https://doi.org/10.1016/j.jhazmat.2021.126626
+
 [2] Müller, K., Unice, K., Panko, J., & Wagner, S. (2025). Tire emissions during the use phase of tires – current and future trends. Environmental Science: Advances. https://doi.org/10.1039/d4va00407h
+
 [3] Sundar, S. (2020, December 3). Improve your Predictive Model’s Score using a Stacking Regressor. Analytics Vidhya. https://www.analyticsvidhya.com/blog/2020/12/improve-predictive-model-score-stacking-regressor/
 [back](./)
 
