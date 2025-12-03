@@ -20,7 +20,7 @@ To explore this issue with acknowledgement of the current research field, we tur
 
 The EMFAC (Emission Factors) model is an on-road mobile emissions model developed by the California Air Resources Board (CARB). It is used by CARB to support public policy and regulatory decision-making and is also publicly available for research and planning purposes. In this study, we investigate differences between gasoline and electric vehicles to understand how PM₂.₅ tire-wear (TW) emissions can be predicted across these categories.
 
-Initially, the dataset contained n = 13 gasoline vehicles and n = 41 electric vehicles, indicating a substantial class imbalance. To address this sampling gap, natural gas vehicles (n = 29) were reclassified under the gasoline vehicle category. This pre-processing step was implemented to achieve a more approximately balanced sample between the gasoline and electric vehicle groups, thereby improving the statistical reliability of subsequent modeling.
+Initially, the dataset contained n = 13 gasoline vehicles and n = 41 electric vehicles, indicating a substantial class imbalance. To address this sampling gap, natural gas vehicles (n = 29) were reclassified under the gasoline vehicle category. This pre-processing step was implemented to achieve a more approximately balanced sample between the gasoline and electric vehicle groups, improving the statistical reliability of subsequent modeling. Now, there is a total of n = 83 vehicles that we are investigating. 
 
 We next developed a visualization to examine the distribution of PM2.5 TW values within the EMFAC dataset. From initial observations, the distribution is highly right-skewed, with the majority of PM2.5 TW values concentrated at the lower end of the metric range. This concentration indicates that most vehicles exhibit relatively low PM2.5 TW emissions, with only a small number producing substantially higher values. This distribution is illustrated in Figure 1.
 
@@ -30,6 +30,8 @@ We next developed a visualization to examine the distribution of PM2.5 TW values
 
 To improve the normality of the response variable, a logarithmic transformation was applied to the PM2.5 tire-wear (TW) values. This transformation reduces the influence of extreme values and mitigates the strong right-skew observed in the original distribution, resulting in data that are better suited for regression-based and machine learning models. The resulting transformed distribution is shown in Figure 2.
 
+Within the dataset, there are many variables to determine if there is any impact on the predictions of PM2.5 TW. 
+
 ![](assets/IMG/post_processing.png)
 
 *Figure 2: Post-Processed PM2.5 TW Data of EMFAC through Logarithmic Transformation  [2].*
@@ -38,64 +40,76 @@ With the data now normalized through the logarithmic transformation, PM2.5 tw ca
 
 By incorporating machine learning to predict PM2.5 TW, we aim to evaluate whether electric vehicles exhibit a higher PM2.5 TW emission rate per VMT compared to gasoline vehicles, a hypothesis motivated by differences in vehicle mass and torque. Figure 3 presents a bar chart comparison between electric and gasoline vehicles, highlighting a key methodological change between the EMFAC 2021 and EMFAC 2025. The EMFAC 2025 model incorporates vehicle weight dependence, whereas the EMFAC 2021 model treated tire-wear emissions as weight-independent; hence, the PM2.5 TW emission rate per VMT between gasoline and electric vehicles was the same.
 
+However, it is important to note that the EMFAC dataset may contain inherent multicollinearity due to correlated traffic and emissions variables. For example, PM2.5 Total is  related to PM2.5 TW emissions and may artificially inflate feature importance if included directly as a predictor. To accomodate for this multicollinearity, care was therefore taken to assess feature redundancy and ensure that predictive relationships were not dominated by trivially correlated variables.
+
 ![](assets/IMG/pm_vmt.png)
 
 *Figure 3: PM2.5 per VMT Bar Chart Comparison Between Electric and Gasoline Vehicles EMFAC 2025 [3].*
 
-## Modelling
+## Modeling
 
-For this project, the main purpose of the investigation is to test some modeling algorithms that would best fit the dataset. Hence, I will be testing linear regression, ridge regression, neural network, random forest, decision tree regression, and simple vector regression (SVR). These methods are all commonly used in machine learning that help with quantitative predictions of the response variables, given extensive information about the explanatory variables. Each of these tactics has its own strengths and weaknesses so I will test the accuracy of each algorithm.
+For this project, the main purpose of the investigation is to test some modeling algorithms that would best fit the dataset. Hence, I will be testing linear regression, ridge regression, neural network, random forest, decision tree regression, and simple vector regression (SVR). These methods are all commonly used in machine learning that help with quantitative predictions of the response variables, given extensive information about the explanatory variables. Each of these tactics has its own strengths and weaknesses, so I will test the accuracy of each algorithm.
 
 ### Linear Regression
 
-When selectng the machine learning model that I can work with, I fist thought that linear regression would be a 
+Linear regression was selected as an initial baseline model due to its widespread use in quantitative prediction tasks and its interpretability. Based on prior literature, it was reasonable to first test the assumption that PM₂.₅ tire-wear emissions exhibit an approximately linear relationship with key explanatory variables. In this study, linear regression models the logarithmically transformed PM2.5 TW as a linear combination of trip characteristics, total vehicle miles traveled (VMT), and fuel consumption. This formulation assumes that changes in these driving and vehicle-related variables produce proportional changes in log-transformed PM2.5 TW.
 
 ### Ridge Regression
 
+
+
 ### Neural Network
 
-### Random Forest Regression
+Neural networks are flexible nonlinear machine learning models inspired by the structure of biological neural systems, consisting of interconnected layers of artificial neurons that transform input features through weighted connections and nonlinear activation functions. Neural networks are capable of modeling complex, high-dimensional relationships and can accommodate both continuous and categorical variables after appropriate encoding. Given the nonlinear nature of PM2.5 TW and the strong multicollinearity inherent in the EMFAC dataset, neural networks were considered well-suited for capturing intricate interaction effects among driving behavior and vehicle characteristics.
+
+### Random Forest 
+
+Random Forest is an ensemble learning method that constructs a large collection of decision trees using bootstrap: resampled subsets of the training data and randomly selected subsets of input features at each split. The final prediction is obtained by averaging the predictions across all trees. 
+
+An additional advantage of Random Forest is its ability to quantify feature importance, which provides insight into which driving and vehicle-related variables contribute most strongly to PM2.5 TW predictions. This interpretability allows the model to serve not only as a predictive tool but also as a diagnostic framework for understanding dominant physical drivers of non-exhaust particulate emissions.
 
 ### Decision Tree
 
+Decision trees are well-suited for capturing nonlinear relationships and complex feature interactions within a dataset. Because the relationship between the input variables and the logarithmically transformed PM2.5 TW emissions is expected to be highly nonlinear, decision trees provide a flexible modeling framework that does not impose linearity assumptions. 
+
+From a physical science perspective, the hierarchical structure of a decision tree offers interpretability by allowing researchers to trace how specific driving and vehicle-related variables influence predictions through  conditional splits. In this study, regression trees were used to model the predominantly quantitative feature set, while still allowing categorical variables such as fuel type to be incorporated when applicable. This flexibility makes decision trees well-suited for modeling the complex structure of the PM2.5 TW dataset.
+
 ### SVR
 
-Here are some more details about the machine learning approach and why this was deemed appropriate for the dataset. 
+SVR was included as a nonlinear kernel-based method for predicting the continuous PM2.5 TW output. SVR seeks an optimal function that balances model complexity and prediction error using margin-based optimization. Because SVR can capture nonlinear relationships through kernel functions, it was evaluated as an alternative to tree-based and neural network models for modeling the EMFAC dataset.
+
 
 <p>
 When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
   \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
 </p>
 
-The model might involve optimizing some quantity. You can include snippets of code if it is helpful to explain things.
-
-```python
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.datasets import make_classification
-X, y = make_classification(n_features=4, random_state=0)
-clf = ExtraTreesClassifier(n_estimators=100, random_state=0)
-clf.fit(X, y)
-clf.predict([[0, 0, 0, 0]])
-```
-
-This is how the method was developed.
 
 ## Results
 
+![](assets/IMG/rec_combo.png)
+
+_Figure 4. REC Curve for Linear, Ridge, SVR, and Neural Network_
+
 ![](assets/IMG/dt_unconstrained.png)
+
+_Figure 5. Decision Tree without Constraints_
 
 ![](assets/IMG/dt_constrained.png)
 
+_Figure 6. Decision Tree with a maximum depth of 3_
+
 ![](assets/IMG/dt_actual_true.png)
+
+_Figure 7. Decision Tree Actual vs. True Y-Values_
 
 ![](assets/IMG/rf_actual_true.png)
 
+_Figure 8. Random Forest Actual vs. True Y-Values_
+
 ![](assets/IMG/rf_feature_importance.png)
 
-![](assets/IMG/rec_combo.png)
-
-
-Figure X shows... [description of Figure X].
+_Figure 9. Feature Importances for Random Forest_
 
 ## Discussion
 
