@@ -141,9 +141,9 @@ _Figure 10. Feature Importances for Random Forest_
 
 | Index  | Model | RMSE Mean | RMSE Std | R² Mean | R² STD |
 | ------ | ------------- | ------------- | ------------- | ------------- | ------------- |
-|   1    |  (max_depth = 3)  | 0.272  | 0.055  | 0.966  | 0.011  |
+|   1    | Decision Tree (max_depth = 3)  | 0.272  | 0.055  | 0.966  | 0.011  |
 |   5    | Random forest (n_estimators=200, max_depth=6)  | 0.279  | 0.108  | 0.959  | 0.033  |
-|   2    | 	 (without constraints)  | 0.318  | 0.114  | 0.947  | 0.045  |
+|   2    | Decision Tree (without constraints)  | 0.318  | 0.114  | 0.947  | 0.045  |
 |   6    | SVR (RBF, C=1.0)  | 1.090  | 0.129  | 0.458  | 0.157  |
 |   4    | 	Neural Network (1x300)  | 1.440  | 0.594  | -0.115  | 1.087  |
 |   3    | 	Ridge regression (alpha=1.0)  | 3.963  | 3.010  | -9.429  | 11.532  |
