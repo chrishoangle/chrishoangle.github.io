@@ -155,7 +155,7 @@ _Figure 10. Feature Importances for Random Forest_
 |   6    | SVR (RBF, C=1.0)  | 1.090  | 0.129  | 0.458  | 0.157  |
 |   4    | 	Neural Network (1x300)  | 1.440  | 0.594  | -0.115  | 1.087  |
 |   3    | 	Ridge regression (alpha=1.0)  | 3.963  | 3.010  | -9.429  | 11.532  |
-|   0    | Linear Regression  | 339487.179  | 518154.992  | -186056865437.766  | 361964590415.061  |
+|   0    | Linear Regression  | 339487.179  | 518154.992  | -186056865437.766  | +361964590415.061  |
 
 _Figure 11. Overall Accuracy of Models Trained and Tested_
 
